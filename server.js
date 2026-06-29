@@ -6,17 +6,18 @@ const multer     = require("multer");
 const nodemailer = require("nodemailer");
 
 const app  = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// 2. NOW DEFINE THE DYNAMIC PATHS
+// Dynamic paths configuration for Serverless compatibility
 const LOCAL_DATA_FILE = path.join(__dirname, "data.json");
 const USERS_FILE      = path.join(__dirname, "users.json");
 
-const DATA_FILE = process.env.VERCEL
-  ? path.join("/tmp", "data.json")
+// Automatically use Vercel's writable temporary directory if deployed in the cloud
+const DATA_FILE = process.env.VERCEL 
+  ? path.join("/tmp", "data.json") 
   : LOCAL_DATA_FILE;
 
-// 3. RUN THE SYNC LOGIC BELOW THEM
+// Safely seed the blank serverless space with your existing file structure
 function syncDataToTmp() {
   if (process.env.VERCEL && !fs.existsSync(DATA_FILE)) {
     try {
@@ -31,14 +32,19 @@ function syncDataToTmp() {
   }
 }
 syncDataToTmp();
-const USERS_FILE = path.join(__dirname, "users.json");
-const UPLOADS_DIR = path.join(__dirname, "public", "uploads");
+syncDataToTmp();
+const UPLOADS_DIR = process.env.VERCEL 
+  ? path.join("/tmp", "uploads") 
+  : path.join(__dirname, "public", "uploads");
+
+// Safely create the folder if it doesn't exist yet
 if (!fs.existsSync(UPLOADS_DIR)) {
   fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 }
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, UPLOADS_DIR); 
+    cb(null, UPLOADS_DIR);
   },
   filename: function (req, file, cb) {
     const safeName = file.originalname.replace(/\s+/g, "_");
