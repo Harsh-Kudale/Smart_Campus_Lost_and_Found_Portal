@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard — Campus L&F</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+
+
+<div class="dashboard-layout">
+
+  
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-name"><span>Campus</span> L&F</div>
+      <div class="role-tag role-student">🎓 Student</div>
+    </div>
+    <div class="sidebar-user">
+      <div class="username" id="sidebar-name">Loading...</div>
+      <div class="label">Student Account</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="showSection('report-lost')">
+        <span class="nav-icon">🔍</span> Report Lost
+      </div>
+      <div class="nav-item" onclick="showSection('report-found')">
+        <span class="nav-icon">📦</span> Report Found
+      </div>
+      <div class="nav-item" onclick="showSection('view-items'); loadItems();">
+        <span class="nav-icon">📋</span> View Items
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-logout" onclick="logout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  
+  <main class="main-content">
+
+   
+    <section class="page-section active" id="section-report-lost">
+      <div class="section-heading fade-up-1">
+        <h2>🔍 Report a Lost Item</h2>
+        <p>Fill in the details. Provide your email so we can notify you when a match is found.</p>
+      </div>
+
+      <div class="form-card fade-up-2">
+
+       
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="lost-name" placeholder="e.g. Ravi Kumar" />
+          </div>
+          <div class="form-group">
+            <label>Item Name</label>
+            <input type="text" id="lost-item" placeholder="e.g. Black Wallet" />
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Category</label>
+            <select id="lost-category">
+              <option value="" disabled selected>Select category</option>
+              <option value="Wallet">💳 Wallet</option>
+              <option value="ID Card">🪪 ID Card</option>
+              <option value="Electronics">📱 Electronics</option>
+              <option value="Books">📚 Books</option>
+              <option value="Clothing">👕 Clothing</option>
+              <option value="Keys">🔑 Keys</option>
+              <option value="Bag">🎒 Bag</option>
+              <option value="Other">📦 Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Last Seen Location</label>
+            <input type="text" id="lost-location" placeholder="e.g. Library Block B" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description (optional)</label>
+          <textarea id="lost-desc" placeholder="Any extra details to help identify the item..."></textarea>
+        </div>
+
+        <!-- EMAIL FIELD — required for Lost items so admin can notify student -->
+        <div class="form-group">
+          <label>📧 Your Email Address <span style="color:var(--accent-orange)">*Required</span></label>
+          <input type="email" id="lost-email" placeholder="e.g. yourname@college.edu" />
+          <p class="email-hint">
+            ⚠️ We'll send you an email when the admin approves a match for your item.
+          </p>
+        </div>
+
+        
+        <div class="form-group">
+          <label>📸 Upload Item Photo (optional, max 5MB)</label>
+
+          
+          <input
+            type="file"
+            id="lost-image"
+            accept="image/*"
+            class="upload-input-hidden"
+            onchange="previewImage('lost-image', 'lost-preview-wrap', 'lost-preview-img')"
+          />
+
+          
+          <label for="lost-image" class="upload-label">
+            <span class="upload-icon">📷</span>
+            <span>Click to select a photo of your item</span>
+          </label>
+
+          <p class="img-size-hint">Accepted: JPG, PNG, GIF, WEBP — Max 5MB</p>
+
+          
+          <div class="img-preview-wrap" id="lost-preview-wrap">
+            <img id="lost-preview-img" src="" alt="Preview" />
+            <button class="img-remove-btn" onclick="removeImage('lost-image', 'lost-preview-wrap')">✕</button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="submitItem('Lost')">
+          🔍 Submit Lost Report
+        </button>
+
+        <div class="alert alert-success" id="lost-success">
+          ✅ Lost item submitted! Check <strong>View Items</strong> to see it listed.
+        </div>
+        <div class="alert alert-error" id="lost-error"></div>
+
+      </div>
+    </section>
+
+    
+    <section class="page-section" id="section-report-found">
+      <div class="section-heading fade-up-1">
+        <h2>📦 Report a Found Item</h2>
+        <p>Found something on campus? Help reunite it with its owner.</p>
+      </div>
+
+      <div class="form-card fade-up-2">
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="found-name" placeholder="e.g. Priya Sharma" />
+          </div>
+          <div class="form-group">
+            <label>Item Name</label>
+            <input type="text" id="found-item" placeholder="e.g. Blue Water Bottle" />
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Category</label>
+            <select id="found-category">
+              <option value="" disabled selected>Select category</option>
+              <option value="Wallet">💳 Wallet</option>
+              <option value="ID Card">🪪 ID Card</option>
+              <option value="Electronics">📱 Electronics</option>
+              <option value="Books">📚 Books</option>
+              <option value="Clothing">👕 Clothing</option>
+              <option value="Keys">🔑 Keys</option>
+              <option value="Bag">🎒 Bag</option>
+              <option value="Other">📦 Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Found At Location</label>
+            <input type="text" id="found-location" placeholder="e.g. Canteen Ground Floor" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description (optional)</label>
+          <textarea id="found-desc" placeholder="Any details about the item you found..."></textarea>
+        </div>
+
+        <!-- IMAGE UPLOAD (Found items — email not needed) -->
+        <div class="form-group">
+          <label>📸 Upload Item Photo (optional, max 5MB)</label>
+          <input
+            type="file"
+            id="found-image"
+            accept="image/*"
+            class="upload-input-hidden"
+            onchange="previewImage('found-image', 'found-preview-wrap', 'found-preview-img')"
+          />
+          <label for="found-image" class="upload-label">
+            <span class="upload-icon">📷</span>
+            <span>Click to select a photo of the found item</span>
+          </label>
+          <p class="img-size-hint">Accepted: JPG, PNG, GIF, WEBP — Max 5MB</p>
+          <div class="img-preview-wrap" id="found-preview-wrap">
+            <img id="found-preview-img" src="" alt="Preview" />
+            <button class="img-remove-btn" onclick="removeImage('found-image', 'found-preview-wrap')">✕</button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="submitItem('Found')">
+          📦 Submit Found Report
+        </button>
+
+        <div class="alert alert-success" id="found-success">
+          ✅ Found item submitted! The owner will see it in the items list.
+        </div>
+        <div class="alert alert-error" id="found-error"></div>
+
+      </div>
+    </section>
+
+    
+    <section class="page-section" id="section-view-items">
+      <div class="section-heading fade-up-1">
+        <h2>📋 Browse Items</h2>
+        <p>All lost and found reports. Contact the reporter if you find a match!</p>
+      </div>
+
+      <div class="filter-bar fade-up-2">
+        <button class="filter-btn active" onclick="filterItems('All', this)">All</button>
+        <button class="filter-btn" onclick="filterItems('Lost', this)">🔍 Lost</button>
+        <button class="filter-btn" onclick="filterItems('Found', this)">📦 Found</button>
+        <button class="filter-btn" onclick="filterItems('Pending', this)">⏳ Pending</button>
+        <button class="filter-btn" onclick="filterItems('Resolved', this)">✅ Resolved</button>
+      </div>
+
+      <div class="items-grid fade-up-3" id="student-items-grid">
+        <div class="empty-state"><span class="empty-icon">⏳</span>Loading...</div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+
+<script>
+  
+  const role     = localStorage.getItem("role");
+  const username = localStorage.getItem("username");
+  const fullName = localStorage.getItem("fullName");
+  if (role !== "student") window.location.href = "login.html";
+  document.getElementById("sidebar-name").textContent = fullName || username;
+
+  let allItems = [];
+
+  
+  function showSection(name) {
+    document.querySelectorAll(".page-section").forEach(s => s.classList.remove("active"));
+    document.getElementById("section-" + name).classList.add("active");
+    document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+    event.currentTarget.classList.add("active");
+  }
+
+  
+  function previewImage(inputId, wrapId, imgId) {
+    const input = document.getElementById(inputId);
+    const wrap  = document.getElementById(wrapId);
+    const img   = document.getElementById(imgId);
+
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      
+      if (file.size > 5 * 1024 * 1024) {
+        alert("⚠️ Image too large! Please choose a file under 5MB.");
+        input.value = ""; // Clear the selection
+        return;
+      }
+
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        img.src = e.target.result; 
+        wrap.classList.add("visible"); 
+      };
+      reader.readAsDataURL(file); 
+    }
+  }
+
+  
+  function removeImage(inputId, wrapId) {
+    document.getElementById(inputId).value = ""; // Clear file selection
+    const wrap = document.getElementById(wrapId);
+    wrap.classList.remove("visible"); // Hide preview
+    const img = wrap.querySelector("img");
+    if (img) img.src = "";
+  }
+
+  
+  async function submitItem(type) {
+    const prefix = type === "Lost" ? "lost" : "found";
+
+    const name     = document.getElementById(`${prefix}-name`).value.trim();
+    const itemName = document.getElementById(`${prefix}-item`).value.trim();
+    const category = document.getElementById(`${prefix}-category`).value;
+    const location = document.getElementById(`${prefix}-location`).value.trim();
+    const desc     = document.getElementById(`${prefix}-desc`).value.trim();
+    const imageInput = document.getElementById(`${prefix}-image`);
+
+    
+    const email = type === "Lost"
+      ? (document.getElementById("lost-email").value.trim())
+      : "";
+
+    const successEl = document.getElementById(`${prefix}-success`);
+    const errorEl   = document.getElementById(`${prefix}-error`);
+    successEl.style.display = "none";
+    errorEl.style.display   = "none";
+
+    if (!name || !itemName || !category || !location) {
+      errorEl.textContent   = "⚠️ Please fill in all required fields.";
+      errorEl.style.display = "block";
+      return;
+    }
+
+    if (type === "Lost" && !email) {
+      errorEl.textContent   = "⚠️ Please enter your email address for match notifications.";
+      errorEl.style.display = "block";
+      return;
+    }
+
+  
+    const formData = new FormData();
+    formData.append("name",        name);
+    formData.append("itemName",    itemName);
+    formData.append("category",    category);
+    formData.append("location",    location);
+    formData.append("description", desc);
+    formData.append("type",        type);
+    formData.append("email",       email);
+
+    
+    if (imageInput.files[0]) {
+      formData.append("itemImage", imageInput.files[0]);
+    }
+
+    try {
+      
+      const res = await fetch("/upload-item", {
+        method: "POST",
+        body:   formData  
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        successEl.style.display = "block";
+        
+        document.getElementById(`${prefix}-name`).value     = "";
+        document.getElementById(`${prefix}-item`).value     = "";
+        document.getElementById(`${prefix}-category`).value = "";
+        document.getElementById(`${prefix}-location`).value = "";
+        document.getElementById(`${prefix}-desc`).value     = "";
+        if (type === "Lost") document.getElementById("lost-email").value = "";
+        removeImage(`${prefix}-image`, `${prefix}-preview-wrap`);
+      } else {
+        errorEl.textContent   = "❌ " + (data.error || "Submission failed.");
+        errorEl.style.display = "block";
+      }
+
+    } catch (err) {
+      errorEl.textContent   = "❌ Cannot connect to server.";
+      errorEl.style.display = "block";
+    }
+  }
+
+  
+  async function loadItems() {
+    try {
+      const res = await fetch("/items");
+      allItems  = await res.json();
+      renderCards(allItems);
+    } catch {
+      document.getElementById("student-items-grid").innerHTML =
+        `<div class="empty-state"><span class="empty-icon">⚠️</span>Could not load items.</div>`;
+    }
+  }
+
+  
+  function filterItems(filter, btnEl) {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btnEl.classList.add("active");
+    let filtered = allItems;
+    if (filter === "Lost" || filter === "Found") filtered = allItems.filter(i => i.type === filter);
+    else if (filter === "Pending" || filter === "Resolved") filtered = allItems.filter(i => i.status === filter);
+    renderCards(filtered);
+  }
+
+ 
+  function renderCards(items) {
+    const grid = document.getElementById("student-items-grid");
+
+    if (items.length === 0) {
+      grid.innerHTML = `<div class="empty-state"><span class="empty-icon">📭</span><p>No items found.</p></div>`;
+      return;
+    }
+
+    grid.innerHTML = items.map(item => {
+      const typeCls   = item.type === "Lost" ? "badge-lost" : "badge-found";
+      const statusCls = {
+        "Resolved":       "badge-resolved",
+        "Match Approved": "badge-match",
+        "Pending":        "badge-pending"
+      }[item.status] || "badge-pending";
+
+      const probCls = { High:"badge-high", Medium:"badge-medium", Low:"badge-low" }[item.recoveryProbability] || "badge-low";
+
+     
+      const imgSrc   = item.imagePath || "/uploads/placeholder.svg";
+      const imgClass = imgSrc.includes("placeholder") ? "is-placeholder" : "";
+
+      return `
+        <div class="item-card">
+          <!-- Item image at top of card (NEW in v3) -->
+          <div class="card-img-wrap">
+            <img src="${imgSrc}" alt="${item.itemName}" class="${imgClass}"
+                 onerror="this.src='/uploads/placeholder.svg';this.classList.add('is-placeholder')" />
+          </div>
+
+          <div class="item-card-top">
+            <div class="item-name">${item.itemName}</div>
+            <span class="badge ${typeCls}">${item.type}</span>
+          </div>
+          <div class="item-meta">
+            <div class="meta-row"><span class="meta-key">Reporter</span>${item.name}</div>
+            <div class="meta-row"><span class="meta-key">Category</span>${item.category}</div>
+            <div class="meta-row"><span class="meta-key">Location</span>${item.location}</div>
+            <div class="meta-row"><span class="meta-key">Desc</span>${item.description}</div>
+            <div class="meta-row"><span class="meta-key">Date</span>${item.date}</div>
+            <div class="meta-row">
+              <span class="meta-key">Recovery</span>
+              <span class="badge ${probCls}">${item.recoveryProbability}</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Status</span>
+              <span class="badge ${statusCls}">${item.status}</span>
+            </div>
+          </div>
+        </div>`;
+    }).join("");
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+[
+  {
+    "username": "admin",
+    "password": "admin123",
+    "role": "admin",
+    "fullName": "Campus Administrator"
+  },
+  {
+    "username": "student1",
+    "password": "pass123",
+    "role": "student",
+    "fullName": "Ravi Kumar"
+  },
+  {
+    "username": "student2",
+    "password": "pass456",
+    "role": "student",
+    "fullName": "Priya Sharma"
+  },
+  {
+    "username": "student3",
+    "password": "pass789",
+    "role": "student",
+    "fullName": "Arjun Mehta"
+  },
+  {
+    "username": "student4",
+    "password": "pass321",
+    "role": "student",
+    "fullName": "Sneha Patil"
+  },
+  {
+    "username": "student5",
+    "password": "pass654",
+    "role": "student",
+    "fullName": "Rohit Verma"
+  },
+  {
+    "username": "student6",
+    "password": "pass987",
+    "role": "student",
+    "fullName": "Anjali Desai"
+  },
+  {
+    "username": "student7",
+    "password": "stud@123",
+    "role": "student",
+    "fullName": "Karan Joshi"
+  },
+  {
+    "username": "student8",
+    "password": "stud@456",
+    "role": "student",
+    "fullName": "Pooja Nair"
+  },
+  {
+    "username": "student9",
+    "password": "stud@789",
+    "role": "student",
+    "fullName": "Vikram Singh"
+  },
+  {
+    "username": "student10",
+    "password": "stud@321",
+    "role": "student",
+    "fullName": "Meera Iyer"
+  }
+]

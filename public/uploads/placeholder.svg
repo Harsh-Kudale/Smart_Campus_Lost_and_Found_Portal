@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200">
+  <rect width="300" height="200" fill="#10141f" rx="8"/>
+  <rect x="1" y="1" width="298" height="198" fill="none" stroke="#2a3550" stroke-width="2" rx="7" stroke-dasharray="8,4"/>
+  <g transform="translate(150,85)">
+    <circle cx="0" cy="-12" r="22" fill="#1e2d45" stroke="#2a3550" stroke-width="1.5"/>
+    <path d="M-12,-12 Q-12,-24 0,-24 Q12,-24 12,-12 Q12,0 0,0 Q-12,0 -12,-12Z" fill="#2a3a55"/>
+    <circle cx="0" cy="-12" r="7" fill="#0a9396" opacity="0.7"/>
+    <rect x="-20" y="4" width="40" height="28" rx="4" fill="#1e2d45" stroke="#2a3550" stroke-width="1.5"/>
+    <circle cx="-8" cy="10" r="3" fill="#0a9396" opacity="0.5"/>
+  </g>
+  <text x="150" y="148" font-family="Calibri, Arial, sans-serif" font-size="13" fill="#5a6a88" text-anchor="middle">No image uploaded</text>
+  <text x="150" y="166" font-family="Calibri, Arial, sans-serif" font-size="10" fill="#3a4a62" text-anchor="middle">Upload a photo for better identification</text>
+</svg>
