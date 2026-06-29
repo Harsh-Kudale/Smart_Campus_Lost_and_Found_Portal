@@ -42,6 +42,10 @@ const transporter = nodemailer.createTransport({
 });
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 function readItems() {
   try   { return JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")); }
   catch { return []; }
