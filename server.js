@@ -2,22 +2,18 @@ require("dotenv").config();
 const express    = require("express");
 const fs         = require("fs");
 const path       = require("path");
-const multer     = require("multer");     
-const nodemailer = require("nodemailer"); 
+const multer     = require("multer");
+const nodemailer = require("nodemailer");
+
 const app  = express();
 const PORT = 3000;
-// 1. ALL REQUIRES MUST BE AT THE VERY TOP
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-// ... your other requires (like multer, dotenv, etc.) should follow here
 
 // 2. NOW DEFINE THE DYNAMIC PATHS
 const LOCAL_DATA_FILE = path.join(__dirname, "data.json");
 const USERS_FILE      = path.join(__dirname, "users.json");
 
-const DATA_FILE = process.env.VERCEL 
-  ? path.join("/tmp", "data.json") 
+const DATA_FILE = process.env.VERCEL
+  ? path.join("/tmp", "data.json")
   : LOCAL_DATA_FILE;
 
 // 3. RUN THE SYNC LOGIC BELOW THEM
@@ -35,8 +31,6 @@ function syncDataToTmp() {
   }
 }
 syncDataToTmp();
-
-// ... the rest of your server code routes (like app.get, app.post) go here
 const USERS_FILE = path.join(__dirname, "users.json");
 const UPLOADS_DIR = path.join(__dirname, "public", "uploads");
 if (!fs.existsSync(UPLOADS_DIR)) {
