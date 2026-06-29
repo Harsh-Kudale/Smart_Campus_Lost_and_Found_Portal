@@ -6,7 +6,30 @@ const multer     = require("multer");
 const nodemailer = require("nodemailer"); 
 const app  = express();
 const PORT = 3000;
-const DATA_FILE  = path.join(__dirname, "data.json");
+// Dynamic paths configuration for Serverless compatibility
+const LOCAL_DATA_FILE = path.join(__dirname, "data.json");
+const USERS_FILE      = path.join(__dirname, "users.json");
+
+// Automatically use Vercel's writable temporary directory if deployed in the cloud
+const DATA_FILE = process.env.VERCEL 
+  ? path.join("/tmp", "data.json") 
+  : LOCAL_DATA_FILE;
+
+// Safely seed the blank serverless space with your existing file structure
+function syncDataToTmp() {
+  if (process.env.VERCEL && !fs.existsSync(DATA_FILE)) {
+    try {
+      const initialData = fs.existsSync(LOCAL_DATA_FILE)
+        ? fs.readFileSync(LOCAL_DATA_FILE, "utf-8")
+        : "[]";
+      fs.writeFileSync(DATA_FILE, initialData, "utf-8");
+      console.log("✅ Successfully initialized data.json in /tmp");
+    } catch (err) {
+      console.error("❌ Failed to initialize file in /tmp:", err.message);
+    }
+  }
+}
+syncDataToTmp();
 const USERS_FILE = path.join(__dirname, "users.json");
 const UPLOADS_DIR = path.join(__dirname, "public", "uploads");
 if (!fs.existsSync(UPLOADS_DIR)) {
